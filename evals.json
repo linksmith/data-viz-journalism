@@ -1,0 +1,105 @@
+{
+  "skill_name": "data-viz-journalism",
+  "eval_protocol": "Activate the skill, run the prompt verbatim, grade each scoring_criteria item pass/fail. Eval passes if all criteria met.",
+  "evals": [
+    {
+      "id": "DV-01",
+      "prompt": "Maak een grafiek van het aandeel eigenaar-bewoners, corporatiehuurders en particuliere huurders per regio.",
+      "expected_output": "Generates a stacked or grouped bar chart, explicitly avoids pie charts",
+      "scoring_criteria": [
+        "Does NOT generate a pie chart (no alt.mark_arc() without a bar alternative, no plt.pie())",
+        "Generates a stacked bar chart OR grouped bar chart OR 100% stacked bar",
+        "Explicitly mentions that pie charts are avoided ('geen taartdiagrammen')",
+        "Explains why (hard to compare segments, especially with 3+ categories)"
+      ],
+      "files": []
+    },
+    {
+      "id": "DV-02",
+      "prompt": "Maak een staafdiagram van het percentage zonnepanelen per provincie.",
+      "expected_output": "Chart has a journalistic finding as title, subtitle with time period, CBS source line",
+      "scoring_criteria": [
+        "Chart title is a journalistic finding (e.g. 'Zuid-Holland loopt achter op zonnepanelen') NOT just a variable description ('Zonnepanelen per provincie')",
+        "Subtitle includes the time period and data source",
+        "Source line reads 'Bron: CBS StatLine'"
+      ],
+      "files": []
+    },
+    {
+      "id": "DV-03",
+      "prompt": "Maak een horizontaal staafdiagram van gemeenten op zonnepanelen en markeer Utrecht als uitschieter.",
+      "expected_output": "Altair chart with alt.condition() coloring Utrecht differently, muted grey for others",
+      "scoring_criteria": [
+        "Uses Altair (alt.Chart), not matplotlib or plotly as first choice",
+        "Uses alt.condition() or equivalent to color Utrecht differently from other bars",
+        "Non-highlighted bars use a muted/grey color (#bdbdbd or similar)",
+        "Chart is horizontal (horizontal bars for many categories)",
+        "Utrecht's bar uses the focus/highlight color (red or similar)"
+      ],
+      "files": []
+    },
+    {
+      "id": "DV-04",
+      "prompt": "Sla mijn Altair-grafiek op voor publicatie in zowel print als web.",
+      "expected_output": "Saves PNG at high resolution and SVG, creates output directory",
+      "scoring_criteria": [
+        "Saves PNG at high resolution (scale_factor=2 or equivalent)",
+        "Saves SVG for vector/print quality",
+        "Creates output directory with os.makedirs(..., exist_ok=True)",
+        "Both save calls are in the code (not just one format)",
+        "Mentions that vl-convert-python is needed for PNG export from Altair"
+      ],
+      "files": []
+    },
+    {
+      "id": "DV-05",
+      "prompt": "Genereer alt-tekst voor mijn staafdiagram van zonnepanelen per gemeente.",
+      "expected_output": "Single Dutch descriptive sentence following the specified format template",
+      "scoring_criteria": [
+        "Produces a single descriptive sentence (not a list of all values)",
+        "Alt text mentions the chart type ('horizontaal staafdiagram')",
+        "Alt text mentions the value range or key finding",
+        "Alt text is in Dutch (since the chart is in Dutch)",
+        "Format follows: '[Charttype] van [N] [geografisch niveau] in [land/regio], [tijdperiode]. [Bevinding].'"
+      ],
+      "files": []
+    },
+    {
+      "id": "DV-06",
+      "prompt": "Maak een lijndiagram met 5 provincies op één grafiek. Zorg voor toegankelijke kleuren.",
+      "expected_output": "Uses a named colorblind-safe palette, not red-green, mentions accessibility",
+      "scoring_criteria": [
+        "Uses Tableau10 (Altair default), a colorblind-safe palette, OR names a specific safe palette",
+        "Does NOT use a red-green combination as the primary distinction",
+        "Assigns colors via a named scale (alt.Color with scale=alt.Scale(scheme=...)) rather than hardcoded hex list",
+        "Mentions colorblindness accessibility ('kleurenblindveilig')"
+      ],
+      "files": []
+    },
+    {
+      "id": "DV-07",
+      "prompt": "Maak een scatterplot van inkomen vs. zonnepanelen per gemeente.",
+      "expected_output": "Altair scatterplot as first suggestion, with trend line, no matplotlib default",
+      "scoring_criteria": [
+        "Uses Altair as the primary library (not matplotlib or plotly)",
+        "Only suggests plotly if interactivity is mentioned by the user",
+        "Does NOT default to matplotlib.pyplot as first suggestion",
+        "Adds regression line or trend line if possible in Altair"
+      ],
+      "files": []
+    },
+    {
+      "id": "DV-08",
+      "prompt": "Gebruik de journalism-stijlmodule voor mijn Altair-grafiek.",
+      "expected_output": "Imports journalism_style.py, registers and enables the theme, uses COLORS constants",
+      "scoring_criteria": [
+        "Imports from journalism_style.py (or assets/journalism_style.py)",
+        "Calls alt.themes.register('journalism', altair_journalism_theme)",
+        "Calls alt.themes.enable('journalism')",
+        "Uses COLORS['focus'] for the highlighted data point",
+        "Uses COLORS['muted'] (#bdbdbd) for background data points"
+      ],
+      "files": []
+    }
+  ]
+}
